@@ -1,28 +1,23 @@
+/* src/index.css */
 .gallery-fullscreen {
   width: 100vw;
   height: 100vh;
   background: radial-gradient(circle at bottom, #181818 0%, #000 80%);
   overflow: hidden;
-  touch-action: pan-y;
-
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  position: relative; /* thêm dòng này để .gallery-topbar định vị đúng */
+  position: relative;
 }
 
-/* Thanh trên cùng */
 .gallery-topbar {
   position: absolute;
   top: 1rem;
   left: 50%;
-  transform: translateX(-50%); /* 🔹 căn giữa ngang */
+  transform: translateX(-50%);
   z-index: 10;
 }
 
-/* Nút đóng */
 .btn-close {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -41,16 +36,12 @@
   transform: scale(1.05);
 }
 
-/* Canvas 3D căn giữa */
 .gallery-fullscreen canvas {
   width: 100%;
   height: 100%;
   display: block;
-  margin: 0 auto;
-  object-fit: contain;
 }
 
-/* 🔹 Responsive */
 @media (max-width: 768px) {
   .btn-close {
     font-size: 14px;
