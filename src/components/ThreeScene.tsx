@@ -1,7 +1,7 @@
+// src/components/MemoriesGallery.tsx
 import React, { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html, useTexture } from "@react-three/drei";
-import { motion } from "framer-motion";
 import * as THREE from "three";
 
 type PhotoProps = {
@@ -17,11 +17,13 @@ function PhotoMesh({ url, angle, radius, active, size }: PhotoProps) {
   const ref = useRef<THREE.Mesh>(null!);
 
   useFrame(() => {
-    const targetScale = active ? 1.3 : 1;
+    const targetScale = active ? 1.5 : 1; // Trung tâm nổi bật hơn
     ref.current.scale.lerp(
       new THREE.Vector3(targetScale, targetScale, targetScale),
       0.1
     );
+    // Nhẹ nhàng nâng ảnh trung tâm lên
+    ref.current.position.y = active ? 0.5 : 0;
   });
 
   return (
@@ -52,7 +54,6 @@ export default function MemoriesGallery({ onClose }: { onClose: () => void }) {
   const [startX, setStartX] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
-  // 🔹 kiểm tra kích thước màn hình
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
@@ -60,7 +61,6 @@ export default function MemoriesGallery({ onClose }: { onClose: () => void }) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // --- xử lý vuốt chuột hoặc vuốt cảm ứng ---
   const handlePointerDown = (e: React.PointerEvent) => {
     setIsDragging(true);
     const clientX =
@@ -72,14 +72,13 @@ export default function MemoriesGallery({ onClose }: { onClose: () => void }) {
     if (!isDragging) return;
     const clientX =
       "touches" in e ? (e as any).touches?.[0]?.clientX ?? 0 : e.clientX;
-    const delta = (clientX - startX) * 0.005;
+    const delta = (clientX - startX) * 0.006; // nhạy hơn
     setRotation((prev) => prev + delta);
     setStartX(clientX);
   };
 
   const handlePointerUp = () => setIsDragging(false);
 
-  // --- xác định ảnh nào đang ở giữa ---
   const getActiveIndex = () => {
     const normalized = ((rotation % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
     const index = Math.round((normalized / (Math.PI * 2)) * images.length) % images.length;
@@ -87,10 +86,11 @@ export default function MemoriesGallery({ onClose }: { onClose: () => void }) {
   };
 
   const activeIndex = getActiveIndex();
+  const radius = isMobile ? 3.5 : 5; // radius rộng hơn
+  const photoSize = isMobile ? 1.4 : 2; // ảnh lớn hơn
 
-  // 🔹 kích thước ảnh & bán kính thay đổi theo thiết bị
-  const radius = isMobile ? 3.2 : 4.5;
-  const photoSize = isMobile ? 1.2 : 1.6;
+  const cameraY = isMobile ? 2 : 3; // nâng cao hơn
+  const cameraZ = isMobile ? 7 : 9;
 
   return (
     <div
@@ -101,12 +101,10 @@ export default function MemoriesGallery({ onClose }: { onClose: () => void }) {
       onPointerLeave={handlePointerUp}
     >
       <div className="gallery-topbar">
-        <motion.button className="btn-close" onClick={onClose} whileTap={{ scale: 0.95 }}>
-          ✕ Đóng
-        </motion.button>
+        <button className="btn-close" onClick={onClose}>Đóng</button>
       </div>
 
-      <Canvas camera={{ position: [0, isMobile ? 0.8 : 1, isMobile ? 5 : 6], fov: 55 }}>
+      <Canvas camera={{ position: [0, cameraY, cameraZ], fov: 55 }}>
         <ambientLight intensity={0.8} />
         <directionalLight position={[2, 3, 5]} intensity={1.2} />
         <Suspense fallback={<Html center>Đang tải ảnh…</Html>}>
