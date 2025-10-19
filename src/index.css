@@ -11,3 +11,167 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@400;700&display=swap');
+
+html,body,#root{height:100%;margin:0}
+.app-root{height:100vh;overflow:hidden;background:linear-gradient(135deg,#f7efff,#fff5fb)}
+.ui-topright{position:fixed;top:18px;right:18px;z-index:60}
+.music-btn{position:fixed;left:18px;top:18px;z-index:60}
+.loader-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:80;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02))}
+.loader-ring{width:86px;height:86px;border-radius:50%;background:conic-gradient(#ffd6ea, #ffa6d0, #ff8fb7);box-shadow:0 12px 40px rgba(200,60,120,0.12)}
+.loader-text{margin-top:14px;color:#6b4b6b;font-weight:600}
+.loader-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(circle at center, #ffdde1, #ee9ca7);
+  perspective: 1000px;
+}
+
+.loader-ring {
+  width: 100px;
+  height: 100px;
+  border: 6px solid transparent;
+  border-top: 6px solid #ff4b2b;
+  border-right: 6px solid #ff416c;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255, 65, 108, 0.4);
+  transform-style: preserve-3d;
+  animation: spin3d 2s linear infinite;
+}
+
+@keyframes spin3d {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+.loader-text {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@400;700&display=swap');
+:root {
+  --env-bg: #f6e3b4;
+  --env-accent: #e0c174;
+  --paper: #fffdf7;
+  --shadow: rgba(0, 0, 0, 0.18);
+}
+
+body, html, #root {
+  margin: 0;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg,#f7efff,#fff5fb);
+}
+
+/* EnvelopeCard */
+.envelope-wrap {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  height: 280px;
+  perspective: 1400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 999;
+  max-width: 90vw;
+  max-height: 80vh;
+}
+
+.envelope {
+  position: relative;
+  width: 360px;
+  height: 220px;
+  transform-style: preserve-3d;
+  z-index: 2;
+}
+
+/* Thân phong bì */
+.envelope-body {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 75%;
+  background: var(--env-bg);
+  border-radius: 8px;
+  box-shadow: 0 10px 24px var(--shadow);
+  z-index: 1;
+}
+
+/* Nắp phong bì */
+.envelope-flap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 180px solid transparent;
+  border-right: 180px solid transparent;
+  border-bottom: 130px solid var(--env-accent);
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+  z-index: 3;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Con dấu */
+.envelope-seal {
+  position: absolute;
+  left: 50%;
+  bottom: 35px;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffdb8f, #caa94f);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  z-index: 4;
+}
+
+.envelope-letter {
+  position: absolute;
+  bottom: -30;          /* nằm bên trong phong bì */
+  left: 0;
+  transform: translate(-50%, 100%); /* ẩn hẳn lá thư phía dưới */
+  width: 100%;
+  height: 100%;
+  background: var(--paper);
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+/* Responsive - mobile */
+@media (max-width: 520px) {
+  .envelope-wrap { width: 320px; height: 200px; }
+  .envelope { width: 300px; height: 180px; }
+  .envelope-flap {
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 100px solid var(--env-accent);
+  }
+  .envelope-seal { width: 50px; height: 50px; bottom: 28px; }
+  .envelope-letter {
+    width: 72%;
+    height: 55%;
+    bottom: 10px;
+    padding: 10px;
+  }
+}
