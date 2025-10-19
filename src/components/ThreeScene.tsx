@@ -1,4 +1,3 @@
-// src/components/MemoriesGallery.tsx
 import React, { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html, useTexture } from "@react-three/drei";
@@ -17,13 +16,11 @@ function PhotoMesh({ url, angle, radius, active, size }: PhotoProps) {
   const ref = useRef<THREE.Mesh>(null!);
 
   useFrame(() => {
-    const targetScale = active ? 1.5 : 1; // Trung tâm nổi bật hơn
+    const targetScale = active ? 1.3 : 1;
     ref.current.scale.lerp(
       new THREE.Vector3(targetScale, targetScale, targetScale),
       0.1
     );
-    // Nhẹ nhàng nâng ảnh trung tâm lên
-    ref.current.position.y = active ? 0.5 : 0;
   });
 
   return (
@@ -72,7 +69,7 @@ export default function MemoriesGallery({ onClose }: { onClose: () => void }) {
     if (!isDragging) return;
     const clientX =
       "touches" in e ? (e as any).touches?.[0]?.clientX ?? 0 : e.clientX;
-    const delta = (clientX - startX) * 0.006; // nhạy hơn
+    const delta = (clientX - startX) * 0.005;
     setRotation((prev) => prev + delta);
     setStartX(clientX);
   };
@@ -86,11 +83,12 @@ export default function MemoriesGallery({ onClose }: { onClose: () => void }) {
   };
 
   const activeIndex = getActiveIndex();
-  const radius = isMobile ? 3.5 : 5; // radius rộng hơn
-  const photoSize = isMobile ? 1.4 : 2; // ảnh lớn hơn
 
-  const cameraY = isMobile ? 2 : 3; // nâng cao hơn
-  const cameraZ = isMobile ? 7 : 9;
+  // --- Tối ưu responsive ---
+  const radius = isMobile ? 2.5 : 5;
+  const photoSize = isMobile ? 1 : 2;
+  const cameraY = isMobile ? 1.5 : 3;
+  const cameraZ = isMobile ? 5 : 9;
 
   return (
     <div
