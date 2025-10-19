@@ -45,7 +45,7 @@ export default function EnvelopeCard({ onOpenGallery }: Props) {
   initial={{ y: "100%", scale: 1, opacity: 0 }} // lúc chưa mở, ẩn hoàn toàn
   animate={{
     y: opened ? "-30%" : "100%",   // nhô lên khi mở phong bì
-    scale: expanded ? 1.5 : 1,     // phóng to khi nhấn mở thư
+    scale: expanded ? 0.5 : 1,     // phóng to khi nhấn mở thư
     opacity: opened ? 1 : 0,
   }}
   transition={{
